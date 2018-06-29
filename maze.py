@@ -1,3 +1,5 @@
+#coding = utf-8
+
 class Qipan:
     def __init__(self,x,y):
         self.x = x
@@ -71,20 +73,20 @@ class Block:
         self.h = h
         self.g = g
         
-    def get_color(self):
-        if self.sta == 0:
+    def get_color(self):              #self.sta 指方块状态
+        if self.sta == 0:             # 0 
             return [255,255,255]
-        if self.sta == 1:
+        if self.sta == 1:             # 1 表示起点
             return [0,255,0]
-        if self.sta == 2:
+        if self.sta == 2:             # 2 表示终点
             return [255,0,0]
-        if self.sta == 3:
+        if self.sta == 3:             # 3 表示障碍
             return [0,0,0]
-        if self.sta == 4:
+        if self.sta == 4:             # 4 表示最佳路径
             return [255,255,0]
-        if self.sta == 5:
+        if self.sta == 5:             # 5 表示搜索过的方块(但没有走过)
             return [135,206,250]
-        if self.sta == 6:
+        if self.sta == 6:             # 6 表示曾走过的方块
             return [0,191,255]
 			
 			
@@ -95,9 +97,9 @@ def display(qipan,screen,status = 0):
     for i in range(qipan.x):
         for j in range(qipan.y):
             rect_list=[i*BLOCK_LEN,j*BLOCK_LEN,BLOCK_LEN,BLOCK_LEN]
-            pygame.draw.rect(screen,[0,0,0],rect_list,2)
+            pygame.draw.rect(screen,[0,0,0],rect_list,2)                           #画棋盘
             block_list = [i*BLOCK_LEN+2,j*BLOCK_LEN+2,BLOCK_LEN-4,BLOCK_LEN-4]
-            pygame.draw.rect(screen,qipan.block_list[i][j].color,block_list,0)
+            pygame.draw.rect(screen,qipan.block_list[i][j].color,block_list,0)     #画方块（涂颜色）
               
     if status ==1:
         for i in range(qipan.x):
@@ -204,17 +206,17 @@ def find_best_route(qipan):
 def step_search(qipan):
     start_i,start_j = get_point(qipan,1)
     end_i,end_j = get_point(qipan,2)
-    if is_empty_ol(qipan):
+    if is_empty_ol(qipan):            #判断是否搜索过
         qipan.block_list[start_i][start_j].h = 10*(abs(start_i-end_i)+abs(start_j-end_j))
         qipan.block_list[start_i][start_j].g = qipan.block_list[start_i][start_j].f+qipan.block_list[start_i][start_j].h
-        if qipan.block_list[start_i-1][start_j-1].sta != 3 and start_i-1>-1and start_j-1>-1:
+        if qipan.block_list[start_i-1][start_j-1].sta != 3 and start_i-1>-1 and start_j-1>-1:                              # 起点左上角
             qipan.block_list[start_i-1][start_j-1].display_fgh = True
             qipan.block_list[start_i-1][start_j-1].sta =5
             qipan.block_list[start_i-1][start_j-1].f =14
             qipan.block_list[start_i-1][start_j-1].h = 10*(abs(start_i-1-end_i)+abs(start_j-1-end_j))
             qipan.block_list[start_i-1][start_j-1].g = qipan.block_list[start_i-1][start_j-1].f+qipan.block_list[start_i-1][start_j-1].h
             qipan.block_list[start_i-1][start_j-1].parent = (start_i,start_j)
-        if qipan.block_list[start_i-1][start_j].sta != 3 and start_i-1>-1:
+        if qipan.block_list[start_i-1][start_j].sta != 3 and start_i-1>-1:                              #左边
             qipan.block_list[start_i-1][start_j].display_fgh = True
             qipan.block_list[start_i-1][start_j].sta =5
             qipan.block_list[start_i-1][start_j].f =10
@@ -222,21 +224,21 @@ def step_search(qipan):
             qipan.block_list[start_i-1][start_j].g = qipan.block_list[start_i-1][start_j].f+qipan.block_list[start_i-1][start_j].h
             qipan.block_list[start_i-1][start_j].parent = (start_i,start_j)
         if start_j+1<qipan.y:
-            if qipan.block_list[start_i-1][start_j+1].sta != 3 and start_i-1>-1:
+            if qipan.block_list[start_i-1][start_j+1].sta != 3 and start_i-1>-1:                     #左下角
                 qipan.block_list[start_i-1][start_j+1].display_fgh = True
                 qipan.block_list[start_i-1][start_j+1].sta =5
                 qipan.block_list[start_i-1][start_j+1].f =14
                 qipan.block_list[start_i-1][start_j+1].h = 10*(abs(start_i-1-end_i)+abs(start_j+1-end_j))
                 qipan.block_list[start_i-1][start_j+1].g = qipan.block_list[start_i-1][start_j+1].f+qipan.block_list[start_i-1][start_j+1].h
                 qipan.block_list[start_i-1][start_j+1].parent = (start_i,start_j)
-        if qipan.block_list[start_i][start_j-1].sta != 3 and start_j-1>-1:
+        if qipan.block_list[start_i][start_j-1].sta != 3 and start_j-1>-1:                           #上边
             qipan.block_list[start_i][start_j-1].display_fgh = True
             qipan.block_list[start_i][start_j-1].sta =5
             qipan.block_list[start_i][start_j-1].f =10
             qipan.block_list[start_i][start_j-1].h = 10*(abs(start_i-end_i)+abs(start_j-1-end_j))
             qipan.block_list[start_i][start_j-1].g = qipan.block_list[start_i][start_j-1].f+qipan.block_list[start_i][start_j-1].h
             qipan.block_list[start_i][start_j-1].parent = (start_i,start_j)
-        if start_j+1<qipan.y:
+        if start_j+1<qipan.y:                                                                       #下边
             if qipan.block_list[start_i][start_j+1].sta != 3:
                 qipan.block_list[start_i][start_j+1].display_fgh = True
                 qipan.block_list[start_i][start_j+1].sta =5
@@ -244,7 +246,7 @@ def step_search(qipan):
                 qipan.block_list[start_i][start_j+1].h = 10*(abs(start_i-end_i)+abs(start_j+1-end_j))
                 qipan.block_list[start_i][start_j+1].g = qipan.block_list[start_i][start_j+1].f+qipan.block_list[start_i][start_j+1].h
                 qipan.block_list[start_i][start_j+1].parent = (start_i,start_j)
-        if start_i+1<qipan.x:
+        if start_i+1<qipan.x:                                                                       #右上角
             if qipan.block_list[start_i+1][start_j-1].sta != 3 and start_j-1>-1:
                 qipan.block_list[start_i+1][start_j-1].display_fgh = True
                 qipan.block_list[start_i+1][start_j-1].sta =5
@@ -252,7 +254,7 @@ def step_search(qipan):
                 qipan.block_list[start_i+1][start_j-1].h = 10*(abs(start_i+1-end_i)+abs(start_j-1-end_j))
                 qipan.block_list[start_i+1][start_j-1].g = qipan.block_list[start_i+1][start_j-1].f+qipan.block_list[start_i+1][start_j-1].h
                 qipan.block_list[start_i+1][start_j-1].parent = (start_i,start_j)
-        if start_i+1<qipan.x:
+        if start_i+1<qipan.x:                                                                       #右边
             if qipan.block_list[start_i+1][start_j].sta != 3:
                 qipan.block_list[start_i+1][start_j].display_fgh = True
                 qipan.block_list[start_i+1][start_j].sta =5
@@ -260,7 +262,7 @@ def step_search(qipan):
                 qipan.block_list[start_i+1][start_j].h = 10*(abs(start_i+1-end_i)+abs(start_j-end_j))
                 qipan.block_list[start_i+1][start_j].g = qipan.block_list[start_i+1][start_j].f+qipan.block_list[start_i+1][start_j].h
                 qipan.block_list[start_i+1][start_j].parent = (start_i,start_j)
-        if start_i+1<qipan.x and start_j+1<qipan.y:
+        if start_i+1<qipan.x and start_j+1<qipan.y:                                                 #右下角
             if qipan.block_list[start_i+1][start_j+1].sta != 3:
                 qipan.block_list[start_i+1][start_j+1].display_fgh = True
                 qipan.block_list[start_i+1][start_j+1].sta =5
@@ -269,10 +271,10 @@ def step_search(qipan):
                 qipan.block_list[start_i+1][start_j+1].g = qipan.block_list[start_i+1][start_j+1].f+qipan.block_list[start_i+1][start_j+1].h
                 qipan.block_list[start_i+1][start_j+1].parent = (start_i,start_j)
         return False
-    else:
+    else:             #存在搜索过的方块
         min_i,min_j = ol_find_min(qipan)
-        qipan.block_list[min_i][min_j].sta = 6
-        if qipan.block_list[min_i-1][min_j-1].sta not in[1,2,3,6] and min_i-1>-1and min_j-1>-1:
+        qipan.block_list[min_i][min_j].sta = 6             
+        if qipan.block_list[min_i-1][min_j-1].sta not in[1,2,3,6] and min_i-1>-1 and min_j-1>-1:
             if qipan.block_list[min_i-1][min_j-1].sta != 5:
                 qipan.block_list[min_i-1][min_j-1].display_fgh = True
                 qipan.block_list[min_i-1][min_j-1].sta = 5
