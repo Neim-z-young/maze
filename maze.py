@@ -624,73 +624,73 @@ def step_search_dfs(qipan):
                 qipan.block_list[start_i-1][start_j+1].sta =5
                 qipan.block_list[start_i-1][start_j+1].parent = (start_i,start_j)
                 myStack.push([start_i-1, start_j+1])
-        if qipan.block_list[start_i][start_j-1].sta not in[2,3] and start_j-1>-1:                           #上边
-            qipan.block_list[start_i][start_j-1].sta =5
-            qipan.block_list[start_i][start_j-1].parent = (start_i,start_j)
-            myStack.push([start_i, start_j-1])
         if start_j+1<qipan.y:                                                                       #下边
             if qipan.block_list[start_i][start_j+1].sta not in[2,3]:
                 qipan.block_list[start_i][start_j+1].sta =5
                 qipan.block_list[start_i][start_j+1].parent = (start_i,start_j)
                 myStack.push([start_i, start_j+1])
-        if start_i+1<qipan.x:                                                                       #右上角
-            if qipan.block_list[start_i+1][start_j-1].sta not in[2,3] and start_j-1>-1:
-                qipan.block_list[start_i+1][start_j-1].sta =5
-                qipan.block_list[start_i+1][start_j-1].parent = (start_i,start_j)
-                myStack.push([start_i+1, start_j-1])
-        if start_i+1<qipan.x:                                                                       #右边
-            if qipan.block_list[start_i+1][start_j].sta not in[2,3]:
-                qipan.block_list[start_i+1][start_j].sta =5
-                qipan.block_list[start_i+1][start_j].parent = (start_i,start_j)
-                myStack.push([start_i+1, start_j])
         if start_i+1<qipan.x and start_j+1<qipan.y:                                                 #右下角
             if qipan.block_list[start_i+1][start_j+1].sta not in[2,3]:
                 qipan.block_list[start_i+1][start_j+1].sta =5
                 qipan.block_list[start_i+1][start_j+1].parent = (start_i,start_j)
                 myStack.push([start_i+1, start_j+1])
+        if start_i+1<qipan.x:                                                                       #右边
+            if qipan.block_list[start_i+1][start_j].sta not in[2,3]:
+                qipan.block_list[start_i+1][start_j].sta =5
+                qipan.block_list[start_i+1][start_j].parent = (start_i,start_j)
+                myStack.push([start_i+1, start_j])
+        if start_i+1<qipan.x:                                                                       #右上角
+            if qipan.block_list[start_i+1][start_j-1].sta not in[2,3] and start_j-1>-1:
+                qipan.block_list[start_i+1][start_j-1].sta =5
+                qipan.block_list[start_i+1][start_j-1].parent = (start_i,start_j)
+                myStack.push([start_i+1, start_j-1])
+        if qipan.block_list[start_i][start_j-1].sta not in[2,3] and start_j-1>-1:                           #上边
+            qipan.block_list[start_i][start_j-1].sta =5
+            qipan.block_list[start_i][start_j-1].parent = (start_i,start_j)
+            myStack.push([start_i, start_j-1])
         return False
     elif myStack.is_empty():
         return True
     else:             #存在搜索过的方块
         top_i, top_j = myStack.pop()
         qipan.block_list[top_i][top_j].sta = 6
-        if qipan.block_list[top_i-1][top_j-1].sta == 0 and top_i-1>-1 and top_j-1>-1:                              # 起点左上角
+        if qipan.block_list[top_i-1][top_j-1].sta in[0,5] and top_i-1>-1 and top_j-1>-1:                              # 起点左上角
             qipan.block_list[top_i-1][top_j-1].sta =5
             qipan.block_list[top_i-1][top_j-1].parent = (top_i,top_j)
             myStack.push([top_i-1, top_j-1])
-        if qipan.block_list[top_i-1][top_j].sta == 0 and top_i-1>-1:                              #左边
+        if qipan.block_list[top_i-1][top_j].sta in[0,5] and top_i-1>-1:                              #左边
             qipan.block_list[top_i-1][top_j].sta =5
             qipan.block_list[top_i-1][top_j].parent = (top_i,top_j)
             myStack.push([top_i-1, top_j])
         if top_j+1<qipan.y:
-            if qipan.block_list[top_i-1][top_j+1].sta == 0 and top_i-1>-1:                     #左下角
+            if qipan.block_list[top_i-1][top_j+1].sta in[0,5] and top_i-1>-1:                     #左下角
                 qipan.block_list[top_i-1][top_j+1].sta =5
                 qipan.block_list[top_i-1][top_j+1].parent = (top_i,top_j)
                 myStack.push([top_i-1, top_j+1])
-        if qipan.block_list[top_i][top_j-1].sta == 0 and top_j-1>-1:                           #上边
-            qipan.block_list[top_i][top_j-1].sta =5
-            qipan.block_list[top_i][top_j-1].parent = (top_i,top_j)
-            myStack.push([top_i, top_j-1])
         if top_j+1<qipan.y:                                                                       #下边
-            if qipan.block_list[top_i][top_j+1].sta == 0:
+            if qipan.block_list[top_i][top_j+1].sta in[0,5]:
                 qipan.block_list[top_i][top_j+1].sta =5
                 qipan.block_list[top_i][top_j+1].parent = (top_i,top_j)
                 myStack.push([top_i, top_j+1])
-        if top_i+1<qipan.x:                                                                       #右上角
-            if qipan.block_list[top_i+1][top_j-1].sta == 0 and top_j-1>-1:
-                qipan.block_list[top_i+1][top_j-1].sta =5
-                qipan.block_list[top_i+1][top_j-1].parent = (top_i,top_j)
-                myStack.push([top_i+1, top_j-1])
-        if top_i+1<qipan.x:                                                                       #右边
-            if qipan.block_list[top_i+1][top_j].sta == 0:
-                qipan.block_list[top_i+1][top_j].sta =5
-                qipan.block_list[top_i+1][top_j].parent = (top_i,top_j)
-                myStack.push([top_i+1, top_j])
         if top_i+1<qipan.x and top_j+1<qipan.y:                                                 #右下角
-            if qipan.block_list[top_i+1][top_j+1].sta == 0:
+            if qipan.block_list[top_i+1][top_j+1].sta in[0,5]:
                 qipan.block_list[top_i+1][top_j+1].sta =5
                 qipan.block_list[top_i+1][top_j+1].parent = (top_i,top_j)
                 myStack.push([top_i+1, top_j+1])
+        if top_i+1<qipan.x:                                                                       #右边
+            if qipan.block_list[top_i+1][top_j].sta in[0,5]:
+                qipan.block_list[top_i+1][top_j].sta =5
+                qipan.block_list[top_i+1][top_j].parent = (top_i,top_j)
+                myStack.push([top_i+1, top_j])
+        if top_i+1<qipan.x:                                                                       #右上角
+            if qipan.block_list[top_i+1][top_j-1].sta in[0,5] and top_j-1>-1:
+                qipan.block_list[top_i+1][top_j-1].sta =5
+                qipan.block_list[top_i+1][top_j-1].parent = (top_i,top_j)
+                myStack.push([top_i+1, top_j-1])
+        if qipan.block_list[top_i][top_j-1].sta in[0,5] and top_j-1>-1:                           #上边
+            qipan.block_list[top_i][top_j-1].sta =5
+            qipan.block_list[top_i][top_j-1].parent = (top_i,top_j)
+            myStack.push([top_i, top_j-1])
         flag = judge_end(qipan,top_i, top_j)
         return flag
 
@@ -712,30 +712,30 @@ def step_search_bfs(qipan):
                 qipan.block_list[start_i-1][start_j+1].sta =5
                 qipan.block_list[start_i-1][start_j+1].parent = (start_i,start_j)
                 myQueue.enqueue([start_i-1, start_j+1])
-        if qipan.block_list[start_i][start_j-1].sta not in[2,3] and start_j-1>-1:                           #上边
-            qipan.block_list[start_i][start_j-1].sta =5
-            qipan.block_list[start_i][start_j-1].parent = (start_i,start_j)
-            myQueue.enqueue([start_i, start_j-1])
         if start_j+1<qipan.y:                                                                       #下边
             if qipan.block_list[start_i][start_j+1].sta not in[2,3]:
                 qipan.block_list[start_i][start_j+1].sta =5
                 qipan.block_list[start_i][start_j+1].parent = (start_i,start_j)
                 myQueue.enqueue([start_i, start_j+1])
-        if start_i+1<qipan.x:                                                                       #右上角
-            if qipan.block_list[start_i+1][start_j-1].sta not in[2,3] and start_j-1>-1:
-                qipan.block_list[start_i+1][start_j-1].sta =5
-                qipan.block_list[start_i+1][start_j-1].parent = (start_i,start_j)
-                myQueue.enqueue([start_i+1, start_j-1])
-        if start_i+1<qipan.x:                                                                       #右边
-            if qipan.block_list[start_i+1][start_j].sta not in[2,3]:
-                qipan.block_list[start_i+1][start_j].sta =5
-                qipan.block_list[start_i+1][start_j].parent = (start_i,start_j)
-                myQueue.enqueue([start_i+1, start_j])
         if start_i+1<qipan.x and start_j+1<qipan.y:                                                 #右下角
             if qipan.block_list[start_i+1][start_j+1].sta not in[2,3]:
                 qipan.block_list[start_i+1][start_j+1].sta =5
                 qipan.block_list[start_i+1][start_j+1].parent = (start_i,start_j)
                 myQueue.enqueue([start_i+1, start_j+1])
+        if start_i+1<qipan.x:                                                                       #右边
+            if qipan.block_list[start_i+1][start_j].sta not in[2,3]:
+                qipan.block_list[start_i+1][start_j].sta =5
+                qipan.block_list[start_i+1][start_j].parent = (start_i,start_j)
+                myQueue.enqueue([start_i+1, start_j])
+        if start_i+1<qipan.x:                                                                       #右上角
+            if qipan.block_list[start_i+1][start_j-1].sta not in[2,3] and start_j-1>-1:
+                qipan.block_list[start_i+1][start_j-1].sta =5
+                qipan.block_list[start_i+1][start_j-1].parent = (start_i,start_j)
+                myQueue.enqueue([start_i+1, start_j-1])
+        if qipan.block_list[start_i][start_j-1].sta not in[2,3] and start_j-1>-1:                           #上边
+            qipan.block_list[start_i][start_j-1].sta =5
+            qipan.block_list[start_i][start_j-1].parent = (start_i,start_j)
+            myQueue.enqueue([start_i, start_j-1])
         return False
     elif myQueue.is_empty():
         return True
@@ -755,30 +755,30 @@ def step_search_bfs(qipan):
                 qipan.block_list[front_i-1][front_j+1].sta =5
                 qipan.block_list[front_i-1][front_j+1].parent = (front_i,front_j)
                 myQueue.enqueue([front_i-1, front_j+1])
-        if qipan.block_list[front_i][front_j-1].sta == 0 and front_j-1>-1:                           #上边
-            qipan.block_list[front_i][front_j-1].sta =5
-            qipan.block_list[front_i][front_j-1].parent = (front_i,front_j)
-            myQueue.enqueue([front_i, front_j-1])
         if front_j+1<qipan.y:                                                                       #下边
             if qipan.block_list[front_i][front_j+1].sta == 0:
                 qipan.block_list[front_i][front_j+1].sta =5
                 qipan.block_list[front_i][front_j+1].parent = (front_i,front_j)
                 myQueue.enqueue([front_i, front_j+1])
-        if front_i+1<qipan.x:                                                                       #右上角
-            if qipan.block_list[front_i+1][front_j-1].sta == 0 and front_j-1>-1:
-                qipan.block_list[front_i+1][front_j-1].sta =5
-                qipan.block_list[front_i+1][front_j-1].parent = (front_i,front_j)
-                myQueue.enqueue([front_i+1, front_j-1])
-        if front_i+1<qipan.x:                                                                       #右边
-            if qipan.block_list[front_i+1][front_j].sta == 0:
-                qipan.block_list[front_i+1][front_j].sta =5
-                qipan.block_list[front_i+1][front_j].parent = (front_i,front_j)
-                myQueue.enqueue([front_i+1, front_j])
         if front_i+1<qipan.x and front_j+1<qipan.y:                                                 #右下角
             if qipan.block_list[front_i+1][front_j+1].sta == 0:
                 qipan.block_list[front_i+1][front_j+1].sta =5
                 qipan.block_list[front_i+1][front_j+1].parent = (front_i,front_j)
                 myQueue.enqueue([front_i+1, front_j+1])
+        if front_i+1<qipan.x:                                                                       #右边
+            if qipan.block_list[front_i+1][front_j].sta == 0:
+                qipan.block_list[front_i+1][front_j].sta =5
+                qipan.block_list[front_i+1][front_j].parent = (front_i,front_j)
+                myQueue.enqueue([front_i+1, front_j])
+        if front_i+1<qipan.x:                                                                       #右上角
+            if qipan.block_list[front_i+1][front_j-1].sta == 0 and front_j-1>-1:
+                qipan.block_list[front_i+1][front_j-1].sta =5
+                qipan.block_list[front_i+1][front_j-1].parent = (front_i,front_j)
+                myQueue.enqueue([front_i+1, front_j-1])
+        if qipan.block_list[front_i][front_j-1].sta == 0 and front_j-1>-1:                           #上边
+            qipan.block_list[front_i][front_j-1].sta =5
+            qipan.block_list[front_i][front_j-1].parent = (front_i,front_j)
+            myQueue.enqueue([front_i, front_j-1])
         flag = judge_end(qipan,front_i, front_j)
         return flag
 
