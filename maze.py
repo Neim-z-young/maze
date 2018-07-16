@@ -411,7 +411,7 @@ def step_search(qipan):
     heruistic_factor = 10  #启发因子
     return reapeat_algrithm(qipan,adjacent_cost,diagonal_cost,heruistic_factor)
 		
-def step_search_bf(qipan):
+def step_search_gs(qipan):
     adjacent_cost = 0    #相邻花费
     diagonal_cost = 0    #斜角花费
     heruistic_factor = 10  #启发因子
@@ -705,13 +705,13 @@ def main(t = 0.3):
                         for i in range(qipan.x):
                             for j in range(qipan.y):
                                 if qipan.block_list[i][j].sta == 1:
-                                    qipan.block_list[i][j].display_fgh = True
+                                    qipan.block_list[i][j].display_fgh = False
                     elif qipan.x*BLOCK_LEN/4-50<=x<=qipan.x*BLOCK_LEN/4+50 and qipan.y*BLOCK_LEN+60<=y<=qipan.y*BLOCK_LEN+100:
                         if not end_flag:
                             if algrithm_count==0:
                                 end_flag = step_search(qipan)
                             elif algrithm_count==1:
-                                end_flag = step_search_bf(qipan)
+                                end_flag = step_search_gs(qipan)
                             elif algrithm_count==2:
                                 end_flag = step_search_dfs(qipan)
                             elif algrithm_count==3:
@@ -729,7 +729,7 @@ def main(t = 0.3):
                             if algrithm_count==0:
                                 end_flag = step_search(qipan)
                             elif algrithm_count==1:
-                                end_flag = step_search_bf(qipan)
+                                end_flag = step_search_gs(qipan)
                             elif algrithm_count==2:
                                 end_flag = step_search_dfs(qipan)
                             elif algrithm_count==3:
